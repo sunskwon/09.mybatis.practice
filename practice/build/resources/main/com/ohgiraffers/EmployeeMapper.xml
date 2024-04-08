@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.EmployeeMapper">
+    <resultMap id="employeeResultMap" type="com.ohgiraffers.EmployeeDTO">
+        <id property="id" column="EMP_ID"/>
+        <result property="name" column="EMP_NAME"/>
+        <result property="no" column="EMP_NO"/>
+        <result property="email" column="EMAIL"/>
+        <result property="phone" column="PHONE"/>
+    </resultMap>
+
+    <select id="selectAllEmployee" resultMap="employeeResultMap">
+        SELECT
+            EMP_ID,
+            EMP_NAME,
+            EMP_NO,
+            EMAIL,
+            PHONE
+        FROM EMPLOYEE
+        ORDER BY EMP_ID
+    </select>
+
+    <select id="selectEmployeeById" parameterType="_int" resultMap="employeeResultMap">
+        SELECT
+            EMP_ID,
+            EMP_NAME,
+            EMP_NO,
+            EMAIL,
+            PHONE
+        FROM EMPLOYEE
+        WHERE EMP_ID = #{ id }
+    </select>
+
+    <select id="findLastId" resultType="_int">
+        SELECT
+            MAX(EMP_ID)
+        FROM EMPLOYEE
+    </select>
+
+    <insert id="registEmployee" parameterType="com.ohgiraffers.EmployeeDTO">
+        INSERT INTO EMPLOYEE (
+            EMP_ID,
+            EMP_NAME,
+            EMP_NO,
+            EMAIL,
+            PHONE,
+            JOB_CODE,
+            SAL_LEVEL
+        )
+        VALUES (
+            #{ id },
+            #{ name },
+            #{ no },
+            #{ email },
+            #{ phone },
+            'J1',
+            'S1'
+        )
+    </insert>
+
+    <update id="modifyEmployee" parameterType="com.ohgiraffers.EmployeeDTO">
+        UPDATE EMPLOYEE
+        SET
+            EMP_NAME = #{ name },
+            EMP_NO = #{ no },
+            EMAIL = #{ email },
+            PHONE = #{ phone }
+        WHERE EMP_ID = #{ id }
+    </update>
+
+    <delete id="deleteEmployee" parameterType="_int">
+        DELETE FROM EMPLOYEE
+        WHERE EMP_ID = #{ id }
+    </delete>
+</mapper>
