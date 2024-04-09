@@ -52,10 +52,10 @@ public class Application {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("사원의 이름을 입력하세요 : ");
+        System.out.print("사원의 이름을 입력하세요(필수) : ");
         String name = sc.nextLine();
 
-        System.out.print("사원의 주민등록번호를 입력하세요 : ");
+        System.out.print("사원의 주민등록번호를 입력하세요(필수) : ");
         String no = sc.nextLine();
 
         System.out.print("사원의 email 주소를 입력하세요 : ");
@@ -64,11 +64,19 @@ public class Application {
         System.out.print("사원의 전화번호를 입력하세요 : ");
         String phone = sc.nextLine();
 
+        System.out.print("사원의 직급을 입력하세요(대표, 부사장, 부장, 차장, 과장, 대리, 사원) : ");
+        String job = sc.nextLine();
+
+        System.out.print("사원의 급여등급을 입력하세요(S1 ~ S6) : ");
+        String salLevel = sc.nextLine();
+
         Map<String, String> parameter = new HashMap<>();
         parameter.put("name", name);
         parameter.put("no", no);
         parameter.put("email", email);
         parameter.put("phone", phone);
+        parameter.put("job", job);
+        parameter.put("salLevel", salLevel);
 
         return parameter;
     }
@@ -93,6 +101,12 @@ public class Application {
 
         System.out.print("사원의 전화번호를 입력하세요 : ");
         parameter.put("phone", sc.nextLine());
+
+        System.out.print("사원의 직급을 입력하세요(대표, 부사장, 부장, 차장, 과장, 대리, 사원) : ");
+        parameter.put("job", sc.nextLine());
+
+        System.out.print("사원의 급여등급을 입력하세요(S1 ~ S6) : ");
+        parameter.put("salLevel", sc.nextLine());
 
         return parameter;
     }

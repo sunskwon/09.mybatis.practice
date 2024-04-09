@@ -9,15 +9,19 @@ public class EmployeeDTO {
     private String no;
     private String email;
     private String phone;
+    private String jobCode;
+    private String salLevel;
 
     public EmployeeDTO() {}
 
-    public EmployeeDTO(int id, String name, String no, String email, String phone, String deptCode, String jobCode, String salLevel, int salary, double bonus, int managerId, String hireDate, String entDate, String entYN) {
+    public EmployeeDTO(int id, String name, String no, String email, String phone, String jobCode, String salLevel) {
         this.id = id;
         this.name = name;
         this.no = no;
         this.email = email;
         this.phone = phone;
+        this.jobCode = jobCode;
+        this.salLevel = salLevel;
     }
 
     public int getId() {
@@ -60,6 +64,14 @@ public class EmployeeDTO {
         this.phone = phone;
     }
 
+    public String getJobCode() { return jobCode; }
+
+    public void setJobCode(String jobCode) { this.jobCode = jobCode; }
+
+    public String getSalLevel() { return salLevel; }
+
+    public void setSalLevel(String salLevel) { this.salLevel = salLevel; }
+
     @Override
     public String toString() {
         return "EmployeeDTO{" +
@@ -68,6 +80,8 @@ public class EmployeeDTO {
                 ", no='" + no + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", jobCode='" + jobCode + '\'' +
+                ", salLevel='" + salLevel + '\'' +
                 '}';
     }
 }

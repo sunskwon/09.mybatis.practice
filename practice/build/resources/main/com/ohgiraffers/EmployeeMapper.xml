@@ -9,6 +9,8 @@
         <result property="no" column="EMP_NO"/>
         <result property="email" column="EMAIL"/>
         <result property="phone" column="PHONE"/>
+        <result property="jobCode" column="JOB_CODE"/>
+        <result property="salLevel" column="SAL_LEVEL"/>
     </resultMap>
 
     <select id="selectAllEmployee" resultMap="employeeResultMap">
@@ -17,7 +19,9 @@
             EMP_NAME,
             EMP_NO,
             EMAIL,
-            PHONE
+            PHONE,
+            JOB_CODE,
+            SAL_LEVEL
         FROM EMPLOYEE
         ORDER BY EMP_ID
     </select>
@@ -28,9 +32,14 @@
             EMP_NAME,
             EMP_NO,
             EMAIL,
-            PHONE
+            PHONE,
+            JOB_CODE,
+            SAL_LEVEL
         FROM EMPLOYEE
-        WHERE EMP_ID = #{ id }
+        <if test="id != null and id != ''">
+            WHERE EMP_ID = #{ id }
+        </if>
+        ORDER BY EMP_ID
     </select>
 
     <select id="findLastId" resultType="_int">
@@ -55,19 +64,34 @@
             #{ no },
             #{ email },
             #{ phone },
-            'J1',
-            'S1'
+            #{ jobCode },
+            #{ salLevel }
         )
     </insert>
 
     <update id="modifyEmployee" parameterType="com.ohgiraffers.EmployeeDTO">
         UPDATE EMPLOYEE
-        SET
-            EMP_NAME = #{ name },
-            EMP_NO = #{ no },
-            EMAIL = #{ email },
-            PHONE = #{ phone }
+        <set>
+            <if test="name != null and name !=''">
+                EMP_NAME = #{ name }
+            </if>
+            <if test="no != null and no !=''">
+                , EMP_NO = #{ no }
+            </if>
+            <if test="email != null and email !=''">
+                , EMAIL = #{ email }
+            </if>
+            <if test="phone != null and phone !=''">
+                , PHONE = #{ phone }
+            </if>
+            <if test="jobCode != null and jobCode != ''">
+                , JOB_CODE = #{ jobCode }
+            </if>
+            <if test="salLevel != null and salLevel != ''">
+                , SAL_LEVEL = #{ salLevel }
+            </if>
         WHERE EMP_ID = #{ id }
+        </set>
     </update>
 
     <delete id="deleteEmployee" parameterType="_int">
