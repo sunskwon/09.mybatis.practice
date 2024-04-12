@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.RentalMapper">
+
+    <resultMap id="rentalResultMap" type="com.ohgiraffers.RentalDTO">
+        <id property="id" column="ID"/>
+        <result property="price" column="PRICE"/>
+        <result property="rental" column="RENTAL"/>
+    </resultMap>
+
+    <select id="findRental" parameterType="_int" resultType="String">
+        SELECT
+            A.RENTAL
+        FROM RENTAL A
+        WHERE A.ID = #{ id }
+    </select>
+
+    <update id="updateRentalById" parameterType="com.ohgiraffers.UpdateRental">
+        UPDATE RENTAL A
+            <choose>
+                <when test='rental == "Y"'>
+                    SET A.RENTAL = "N"
+                </when>
+                <otherwise>
+                    SET A.RENTAL = "Y"
+                </otherwise>
+            </choose>
+        WHERE A.ID = #{ id }
+    </update>
+
+    <insert id="registRental" parameterType="com.ohgiraffers.RentalDTO">
+        INSERT INTO RENTAL(
+            ID,
+            PRICE,
+            RENTAL
+        )
+        VALUES(
+            #{ id },
+            #{ price },
+            #{ rental }
+        )
+    </insert>
+
+    <delete id="deleteRental" parameterType="_int">
+        DELETE FROM RENTAL
+        WHERE ID = #{ id }
+    </delete>
+</mapper>

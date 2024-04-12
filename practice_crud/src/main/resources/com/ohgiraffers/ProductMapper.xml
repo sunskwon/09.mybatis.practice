@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.ProductMapper">
+
+    <resultMap id="productResultMap" type="com.ohgiraffers.ProductDTO">
+        <id property="id" column="ID"/>
+        <result property="model" column="MODEL"/>
+        <result property="ram" column="RAM"/>
+        <result property="ssd" column="SSD"/>
+        <result property="brand" column="BRAND"/>
+        <result property="productDate" column="PRODUCT_DATE"/>
+    </resultMap>
+    
+    <resultMap id="productAndRentalResultMap" type="com.ohgiraffers.ProductAndRentalDTO">
+        <id property="id" column="ID"/>
+        <result property="model" column="MODEL"/>
+        <result property="ram" column="RAM"/>
+        <result property="ssd" column="SSD"/>
+        <result property="brand" column="BRAND"/>
+        <result property="productDate" column="PRODUCT_DATE"/>
+        <association property="rental" javaType="com.ohgiraffers.RentalDTO">
+            <id property="id" column="ID"/>
+            <result property="price" column="PRICE"/>
+            <result property="rental" column="RENTAL"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="productAndRentalResultMap">
+        SELECT
+            A.ID,
+            A.MODEL,
+            A.RAM,
+            A.SSD,
+            A.BRAND,
+            A.PRODUCT_DATE,
+            B.PRICE,
+            B.RENTAL
+        FROM PRODUCT A
+        JOIN RENTAL B ON A.ID = B.ID
+    </select>
+
+    <select id="selectById" resultMap="productAndRentalResultMap">
+        SELECT
+            A.ID,
+            A.MODEL,
+            A.RAM,
+            A.SSD,
+            A.BRAND,
+            A.PRODUCT_DATE,
+            B.PRICE,
+            B.RENTAL
+        FROM PRODUCT A
+        JOIN RENTAL B ON A.ID = B.ID
+        <if test="condition == 'id'">
+            WHERE A.ID = #{ value }
+        </if>
+    </select>
+
+    <select id="findMaxId" resultType="_int">
+        SELECT
+            MAX(ID)
+        FROM PRODUCT
+    </select>
+
+    <insert id="registProduct" parameterType="com.ohgiraffers.ProductDTO">
+        INSERT INTO PRODUCT(
+            ID,
+            MODEL,
+            RAM,
+            SSD,
+            BRAND,
+            PRODUCT_DATE
+            )
+        VALUES(
+            #{ id },
+            #{ model },
+            #{ ram },
+            #{ ssd },
+            #{ brand },
+            #{ productDate }
+        )
+    </insert>
+
+    <delete id="deleteProduct" parameterType="_int">
+        DELETE FROM PRODUCT
+        WHERE ID = #{ id }
+    </delete>
+</mapper>
